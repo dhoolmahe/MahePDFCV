@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { GlobalWorkerOptions, getDocument } from "pdfjs-dist";
 
-// Set the PDF.js worker path
 GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url
@@ -40,7 +39,6 @@ export default function PDFViewer() {
             viewport,
           }).promise;
 
-          // Append canvas to container
           containerRef.current.appendChild(canvas);
         }
       } catch (err) {
@@ -58,9 +56,29 @@ export default function PDFViewer() {
     };
   }, []);
 
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = "/cv.pdf"; // from public folder
+    link.download = "MahendranVisvanathan-CV.pdf";
+    link.click();
+  };
+
   return (
-    <div className="p-4 flex flex-col items-center">
-      <div ref={containerRef} className="w-full max-w-3xl" />
+    <div className="min-h-screen bg-gray-50 py-10 px-4 flex flex-col items-center">
+      {/* Download Button */}
+      <div className="mb-6">
+        <button
+          onClick={handleDownload}
+          className="px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition">
+          📥 Download PDF
+        </button>
+      </div>
+      <br></br>
+      {/* PDF Viewer Container */}
+      <div
+        ref={containerRef}
+        className="w-full max-w-3xl space-y-6 bg-white p-6 rounded-xl shadow-lg border"
+      />
     </div>
   );
 }
