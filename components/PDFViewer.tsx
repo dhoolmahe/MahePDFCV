@@ -56,11 +56,16 @@ export default function PDFViewer() {
     };
   }, []);
 
+  // const handleDownload = () => {
+  //   const link = document.createElement("a");
+  //   link.href = "/cv.pdf"; // from public folder
+  //   link.download = "MahendranVisvanathan-CV.pdf";
+  //   link.click();
+  // };
+
   const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = "/cv.pdf"; // from public folder
-    link.download = "MahendranVisvanathan-CV.pdf";
-    link.click();
+    const token = process.env.NEXT_PUBLIC_CV_DOWNLOAD_TOKEN;
+    window.open(`/api/download-cv?token=${token}`, "_blank");
   };
 
   return (

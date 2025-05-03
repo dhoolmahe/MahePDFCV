@@ -7,6 +7,9 @@ const nextConfig = {
     });
     return config;
   },
+  env: {
+    NEXT_PUBLIC_CV_DOWNLOAD_TOKEN: process.env.CV_DOWNLOAD_TOKEN,
+  },
 };
 
 module.exports = nextConfig;
