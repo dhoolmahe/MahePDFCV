@@ -17,7 +17,7 @@ import fs from "fs";
 //   });
 // }
 
-export async function sendTelegramNotification(message: string) {
+async function sendTelegramNotification(message: string) {
   const botToken = process.env.TELEGRAM_BOT_TOKEN!;
   const chatId = process.env.TELEGRAM_CHAT_ID!;
 
