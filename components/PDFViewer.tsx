@@ -56,16 +56,25 @@ export default function PDFViewer() {
     };
   }, []);
 
-  // const handleDownload = () => {
-  //   const link = document.createElement("a");
-  //   link.href = "/cv.pdf"; // from public folder
-  //   link.download = "MahendranVisvanathan-CV.pdf";
-  //   link.click();
-  // };
-
   const handleDownload = () => {
     const token = process.env.NEXT_PUBLIC_CV_DOWNLOAD_TOKEN;
-    window.open(`/api/download-cv?token=${token}`, "_blank");
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const url = `/api/download-cv?token=${token}&lat=${latitude}&lng=${longitude}`;
+          window.open(url, "_blank");
+        },
+        (error) => {
+          console.warn("Location unavailable, downloading without it", error);
+          window.open(`/api/download-cv?token=${token}`, "_blank");
+        }
+      );
+    } else {
+      // fallback if geolocation not supported
+      window.open(`/api/download-cv?token=${token}`, "_blank");
+    }
   };
 
   return (
@@ -74,11 +83,12 @@ export default function PDFViewer() {
       <div className="mb-6">
         <button
           onClick={handleDownload}
-          className="px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition">
+          className="px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 transition"
+        >
           📥 Download PDF
         </button>
       </div>
-      <br></br>
+      <br />
       {/* PDF Viewer Container */}
       <div
         ref={containerRef}
