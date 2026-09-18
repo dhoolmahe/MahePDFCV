@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
 
 export const metadata = {
   title: "Next.js",
@@ -11,11 +12,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <Analytics />
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </>
+    <html lang="en">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-66RQYLM2RV');
+          `}
+        </Script>
+      </head>
+      <body>
+        <Analytics />
+        {children}
+      </body>
+    </html>
   );
 }
